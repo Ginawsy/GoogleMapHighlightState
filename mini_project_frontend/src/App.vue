@@ -62,11 +62,9 @@ async function onInput(e) {
   <div id="regions_div" style="width: 900px; height: 500px;"></div>  
   <!-- <input :value="state_prefix" @input="onInput" placeholder="Type here">
   <p v-if="queried_states_with_prefix">{{ queried_states_with_prefix }}</p> -->
-  <input list="States" @input="onInput"/>
+  <input list="States" placeholder="Please type in a State's name" style="width: 200px;" @input="onInput"/>
   
   <datalist id="States">
       <option v-for="state in queried_states_with_prefix" :value="state">{{state}}</option> -->
   </datalist>
-  
-  <div id="regions_div" style="width: 900px; height: 500px;"></div>
 </template>
