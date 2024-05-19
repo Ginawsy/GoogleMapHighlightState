@@ -81,7 +81,7 @@ go build
 
 ```sh
 cd mini_project_frontend
-npm run dev
+npm run dev -- --port 5174
 ```
 
 **Starting the backend**

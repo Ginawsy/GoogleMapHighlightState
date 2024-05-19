@@ -2,14 +2,13 @@
 import { ref } from 'vue'
 import { loadScript } from "vue-plugin-load-script";
 
-
-
-const options = {
-  region: 'US',
-  resolution: 'provinces'
-};
+// Stores States' names queried from backend
 const queried_states_with_prefix = ref([]);
+// Stores a lambda for drawing/refreshing the map. This will be initialized
+// after Google Map API script is loaded.
 var drawRegionsMap;
+
+// Loads Google Map API script and renders map
 loadScript('https://www.gstatic.com/charts/loader.js')
   .then(() => {
     google.charts.load('current', {
@@ -39,8 +38,10 @@ loadScript('https://www.gstatic.com/charts/loader.js')
     console.log(e)
   })
 
-
-async function onInput(e) {
+// Queries backend for States starting with user's input inside the textbox.
+// Rerenders the map after getting the State names.
+// If there's only one State name returned, highlights the State on the map.
+async function queryStatesWithPrefix(e) {
   queried_states_with_prefix.value = []
   fetch(`http://localhost:3000/query?state_prefix=${e.target.value}`)
     .then((res) => {
@@ -58,13 +59,12 @@ async function onInput(e) {
 </script>
 
 <template>
-  <component src="https://www.gstatic.com/charts/loader.js" :is="'script'"></component>
   <div id="regions_div" style="width: 900px; height: 500px;"></div>  
-  <!-- <input :value="state_prefix" @input="onInput" placeholder="Type here">
-  <p v-if="queried_states_with_prefix">{{ queried_states_with_prefix }}</p> -->
-  <input list="States" placeholder="Please type in a State's name" style="width: 200px;" @input="onInput"/>
+  <input list="States" placeholder="Please type in a State's name"
+    style="width: 200px;" 
+    @input="queryStatesWithPrefix"/>
   
   <datalist id="States">
-      <option v-for="state in queried_states_with_prefix" :value="state">{{state}}</option> -->
+      <option v-for="state in queried_states_with_prefix">{{state}}</option>
   </datalist>
 </template>
