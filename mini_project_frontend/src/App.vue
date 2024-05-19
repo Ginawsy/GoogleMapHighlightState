@@ -14,10 +14,10 @@ loadScript('https://www.gstatic.com/charts/loader.js')
     google.charts.load('current', {
         'packages':['geochart'],
       });
-      drawRegionsMap = () => {
+      drawRegionsMap = (states) => {
         var data_table = []
-        if (queried_states_with_prefix.value.length == 1) {
-          data_table = [[queried_states_with_prefix.value[0]]];
+        if (states.length == 1) {
+          data_table = [[states[0]]];
         }
         var data = google.visualization.arrayToDataTable([
           ['State'],
@@ -32,7 +32,7 @@ loadScript('https://www.gstatic.com/charts/loader.js')
 
         chart.draw(data, options);
       }
-      google.charts.setOnLoadCallback(drawRegionsMap);
+      google.charts.setOnLoadCallback(() => drawRegionsMap(queried_states_with_prefix.value));
   })
   .catch((e) => {
     console.log(e)
@@ -42,6 +42,13 @@ loadScript('https://www.gstatic.com/charts/loader.js')
 // Rerenders the map after getting the State names.
 // If there's only one State name returned, highlights the State on the map.
 async function queryStatesWithPrefix(e) {
+  if (queried_states_with_prefix.value.includes(e.target.value)) {
+    // When user selects a dropdown option, if we update the `queried_states_with_prefix`,
+    // the dropdown will then prompt again. Hence we will skip the user selection case to
+    // avoid from prompting users redundant dropdowns.
+    drawRegionsMap([e.target.value])
+    return
+  }
   queried_states_with_prefix.value = []
   fetch(`http://localhost:3000/query?state_prefix=${e.target.value}`)
     .then((res) => {
@@ -49,12 +56,12 @@ async function queryStatesWithPrefix(e) {
     })
     .then((states_with_prefix) => {
       queried_states_with_prefix.value = states_with_prefix;
-      drawRegionsMap();
+      drawRegionsMap(states_with_prefix);
     })
     .catch((err) => {
       console.log('Error: ', err)
     })
-}
+  }
 
 </script>
 
