@@ -87,13 +87,13 @@ npm run dev -- --port 5174
 **Starting the backend**
 
 ```sh
-cd mini_project_frontend
+cd mini_project_backend
 go run main.go
 ```
 
 ## Usage
 
-After following the above instructions to setup and starting both the frontend and backend for the webapp, visit [localhost:5174](http://localhost:5174/) in your browser, and you will see the following image.
+After following the above instructions to setup and starting both the frontend and backend for the webapp, visit [localhost:5174](http://localhost:5174/) in Chrome, and you will see the following image.
 
 ![screenshot](./images/2.png)
 
