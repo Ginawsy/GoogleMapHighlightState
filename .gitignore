@@ -2,6 +2,6 @@ mini_project_frontend/node_modules
 mongosh-2.2.6-darwin-arm64
 state-abbrevs.csv
 *.vscode
-mini_project_backend/go.mod
+mini_project_backend/go.sum
 mini_project_frontend/package-lock.json
 .DS_Store
